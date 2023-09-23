@@ -1,41 +1,65 @@
-const name = document.getElementById('name');
-const city = document.getElementById('city');
-const email = document.getElementById('email');
-const zipCode = document.getElementById('zip-code');
-const submit = document.getElementById('submit-form');
-const status = document.getElementById('status');
-const form = document.getElementsByTagName('form')[0];
-const warning = document.getElementById('warning')
 
-const formData = {
-    name,city,email,zipCode,status
+// const submit = document.getElementById('submit-form');
+
+function handleGetFormData() {
+    const name = document.getElementById('name').value;
+    const city = document.getElementById('city').value;
+    const email = document.getElementById('email').value;
+    const zipCode = document.getElementById('zip-code').value;
+    const status = document.getElementById('status').checked;
+
+    const form = {
+        name,
+        email,
+        city,
+        zipCode,
+        status
+    }
+    return form
+
 }
 
-function isNumber(code) {
-    if(code !== '') code = parseInt(code)
-    
-    return (typeof code === 'number' && !isNaN(code));
+const formData = handleGetFormData()
+
+function isNumber(stringNumber) {
+
+    if (isNaN(stringNumber)) return false
+    return true
 }
 
-function checkBoxisChecked(element){
-    return element.checked
+function checkboxIsChecked() {
+    const { status } = handleGetFormData()
+    return status
 }
 
-function validateFormData(formData){
-    const {name,city,email,zipCode,status} = formData
-    if(formData!==null && isNumber(zipCode.value) && checkBoxisChecked(status)){
+function validateFormData(formData) {
+    console.log(formData.zipCode)
+    if (formData !== null
+        && isNumber(formData.zipCode)
+        && checkboxIsChecked()) {
+        console.log('benarrr')
         return true
     }
-    return false
+
+    else {
+        console.log('salah')
+        return false
+    }
+
 }
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log('form')
-    if(validateFormData(formData)){
-        warning.innerHTML = ''
-    }
-    else warning.innerHTML='Periksa form anda sekali lagi'
-    
-    
+function submit() {
+    const warning = document.getElementById('warning')
+    if (validateFormData(formData)) {
+    console.log('berhasil')
+    warning.innerHTML = ''}
+    else {
+    console.log('gagal')
+    warning.innerHTML = 'Periksa form anda sekali lagi'}
+}
+
+const form = document.getElementsByTag('form')[0];
+form.addEventListener('form', (event) => {
+    event.preventDefault()
+    submit()
 })
